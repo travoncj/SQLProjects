@@ -136,7 +136,7 @@ SELECT
         THEN (g.home_team_total_yards_gained - g.away_team_total_yards_gained) * .25 * .15 
         ELSE (g.away_team_total_yards_gained - g.home_team_total_yards_gained) * .25 * .15 
 	END AS yds_diff_pts,
-    CASE 
+    CASE -- points for turnover differential
 		WHEN g.home_team_id = t.team_id 
         THEN (g.home_team_turnovers - g.away_team_turnovers) * 30 * .10 
         ELSE (g.away_team_turnovers - g.home_team_turnovers) * 2 * .10 
