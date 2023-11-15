@@ -107,37 +107,37 @@ SELECT
         AND g.home_team_score > g.away_team_score 
         THEN 100*.3 
         ELSE 
-            CASE WHEN g.away_team_id = t.team_id 
-            AND g.away_team_score > g.home_team_score 
-            THEN 100*.30 
-            ELSE 0 END 
+            CASE 
+		WHEN g.away_team_id = t.team_id 
+            	AND g.away_team_score > g.home_team_score 
+            	THEN 100*.30 
+            	ELSE 0 END 
     END AS win_pts,		
     CASE -- points for a win vs an opponent
-		WHEN g.home_team_id = t.team_id 
-		AND g.home_team_score > g.away_team_score 
-		AND g.away_team_id <=10 
-		THEN 100*.25 
-        ELSE 
-			CASE 
-				WHEN g.away_team_id = t.team_id 
+	WHEN g.home_team_id = t.team_id 
+	AND g.home_team_score > g.away_team_score 
+	AND g.away_team_id <=10 
+	THEN 100*.25 
+        ELSE 		
+	    CASE 	
+		WHEN g.away_team_id = t.team_id 
                 AND g.away_team_score > g.home_team_score 
-                AND g.home_team_id <=10 
-                THEN 100*.25 
-                ELSE 0 
-			END 
-	END AS WinVsRankopp_pts,	
+        	AND g.home_team_id <=10                 	
+		THEN 100*.25 
+                ELSE 0 END 
+    END AS WinVsRankopp_pts,	
     CASE -- points for how many more points a team scored than the opponent 
-		WHEN g.home_team_id = t.team_id 
+	WHEN g.home_team_id = t.team_id 
         THEN (g.home_team_score - g.away_team_score) * 2 * .20  
         ELSE (g.away_team_score - g.home_team_score) * 2 * .20 
 	END AS score_diff_pts,
     CASE -- points for how many more yards a team gained than their opponent
-		WHEN g.home_team_id = t.team_id 
+	WHEN g.home_team_id = t.team_id 
         THEN (g.home_team_total_yards_gained - g.away_team_total_yards_gained) * .25 * .15 
         ELSE (g.away_team_total_yards_gained - g.home_team_total_yards_gained) * .25 * .15 
 	END AS yds_diff_pts,
-    CASE -- points for turnover differential
-		WHEN g.home_team_id = t.team_id 
+    CASE -- points for turnover differential		
+	WHEN g.home_team_id = t.team_id 
         THEN (g.home_team_turnovers - g.away_team_turnovers) * 30 * .10 
         ELSE (g.away_team_turnovers - g.home_team_turnovers) * 2 * .10 
 	END AS to_diff_pts
